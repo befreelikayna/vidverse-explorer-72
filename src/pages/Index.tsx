@@ -8,10 +8,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Instagram, Mail, Share2, Youtube } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const { data: videos = [], isLoading, error } = useQuery({
     queryKey: ["videos", searchQuery],
@@ -37,7 +39,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-4 mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Avatar className="h-12 w-12 border-2 border-blue-500">
                 <AvatarImage src="/lovable-uploads/539de762-71b5-4183-9e88-1071a8c6ea5c.png" alt="KIMMISO" />
@@ -51,18 +53,18 @@ const Index = () => {
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
-                size="sm"
+                size={isMobile ? "icon" : "sm"}
                 className="flex items-center gap-2 text-gray-300 hover:text-white"
                 onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
               >
                 <Mail className="h-4 w-4" />
-                <span>business.kimmiso@gmail.com</span>
+                {!isMobile && <span>business.kimmiso@gmail.com</span>}
               </Button>
             </div>
           </div>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <Button
                 variant="ghost"
                 size="sm"
@@ -70,7 +72,7 @@ const Index = () => {
                 onClick={() => window.open('https://www.youtube.com/@kimmiso', '_blank')}
               >
                 <Youtube className="h-4 w-4 text-red-500" />
-                <span>1.4M Subscribers</span>
+                <span>1.4M</span>
               </Button>
               
               <Button
@@ -80,7 +82,7 @@ const Index = () => {
                 onClick={() => window.open('https://www.tiktok.com/@kimmiso94', '_blank')}
               >
                 <Share2 className="h-4 w-4" />
-                <span>1.2M Followers</span>
+                <span>1.2M</span>
               </Button>
               
               <Button
@@ -90,11 +92,11 @@ const Index = () => {
                 onClick={() => window.open('https://www.instagram.com/kimmiso1194/', '_blank')}
               >
                 <Instagram className="h-4 w-4 text-pink-500" />
-                <span>731K Followers</span>
+                <span>731K</span>
               </Button>
             </div>
             
-            <div className="flex-1 max-w-xl ml-4">
+            <div className="w-full md:w-auto md:flex-1 md:max-w-xl">
               <SearchBar onSearch={setSearchQuery} />
             </div>
           </div>
