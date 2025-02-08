@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Instagram, Mail, TikTok, Youtube } from "lucide-react";
+import { Instagram, Mail, Share2, Youtube } from "lucide-react";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -79,7 +79,7 @@ const Index = () => {
                 className="flex items-center gap-2 text-gray-300 hover:text-white"
                 onClick={() => window.open('https://www.tiktok.com/@kimmiso94', '_blank')}
               >
-                <TikTok className="h-4 w-4" />
+                <Share2 className="h-4 w-4" />
                 <span>1.2M Followers</span>
               </Button>
               
