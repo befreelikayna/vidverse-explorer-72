@@ -53,12 +53,12 @@ const Index = () => {
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
-                size={isMobile ? "icon" : "sm"}
-                className="flex items-center gap-2 text-gray-300 hover:text-white"
+                size="sm"
+                className="flex items-center gap-2 text-gray-300 hover:text-white text-sm"
                 onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
               >
                 <Mail className="h-4 w-4" />
-                {!isMobile && <span>business.kimmiso@gmail.com</span>}
+                <span>business.kimmiso@gmail.com</span>
               </Button>
             </div>
           </div>
