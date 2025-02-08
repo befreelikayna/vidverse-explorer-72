@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Instagram, Mail, Share2, Youtube } from "lucide-react";
+import { Instagram, Share2, Youtube } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
@@ -57,7 +57,7 @@ const Index = () => {
                 className="flex items-center gap-2 text-gray-300 hover:text-white text-sm"
                 onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
               >
-                <Mail className="h-4 w-4" />
+                <Share2 className="h-4 w-4" />
                 <span>business.kimmiso@gmail.com</span>
               </Button>
             </div>
