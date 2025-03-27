@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 interface SocialMediaStats {
@@ -110,4 +109,40 @@ export const updateBusinessEmail = async (email: string): Promise<boolean> => {
   // In a real implementation, this would update a database
   console.log("Updated business email:", email);
   return true;
+};
+
+// New function to update theme settings
+export const updateThemeSettings = async (isDarkMode: boolean, themeColor: string): Promise<void> => {
+  // Simulate API call with a delay
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // In a real application, this would be saved to a database
+      console.log(`Updated theme settings: darkMode=${isDarkMode}, color=${themeColor}`);
+      
+      // Save to localStorage for persistence
+      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+      localStorage.setItem("themeColor", themeColor);
+      
+      // Dispatch a storage event to notify other components
+      window.dispatchEvent(new Event("storage"));
+      
+      resolve();
+    }, 500);
+  });
+};
+
+// New function to update Google Ads code
+export const updateGoogleAdsCode = async (code: string): Promise<void> => {
+  // Simulate API call with a delay
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // In a real application, this would be saved to a database
+      console.log(`Updated Google Ads code: ${code.substring(0, 20)}...`);
+      
+      // Save to localStorage for persistence
+      localStorage.setItem("googleAdsCode", code);
+      
+      resolve();
+    }, 500);
+  });
 };
