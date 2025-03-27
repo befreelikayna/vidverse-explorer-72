@@ -7,9 +7,10 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Instagram, Youtube } from "lucide-react";
+import { Instagram, Youtube, LogIn } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSocialMediaStats, formatSubscriberCount } from "@/lib/socialMedia";
+import { useNavigate } from "react-router-dom";
 
 // Custom TikTok icon component
 const TikTokIcon = ({ className = "", size = 16 }: { className?: string; size?: number }) => (
@@ -28,6 +29,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const { youtube, tiktok, instagram, isLoading: statsLoading } = useSocialMediaStats(10000); // Update every 10 seconds
 
   const { data: videos = [], isLoading, error } = useQuery({
@@ -49,6 +51,10 @@ const Index = () => {
       description: "Failed to load videos. Please try again later.",
     });
   }
+
+  const handleAdminLogin = () => {
+    navigate("/admin");
+  };
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -73,6 +79,15 @@ const Index = () => {
                 onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
               >
                 <span>business.kimmiso@gmail.com</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 text-gray-200 hover:text-white"
+                onClick={handleAdminLogin}
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Admin</span>
               </Button>
             </div>
           </div>
