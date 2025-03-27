@@ -19,38 +19,33 @@ export const formatSubscriberCount = (count: number): string => {
   return count.toString();
 };
 
-// Mock function to fetch YouTube subscribers
-// In a real implementation, this would call the YouTube API
+// Real-world function to fetch YouTube subscribers - using mock data with real counts
 const fetchYouTubeSubscribers = async (): Promise<number> => {
-  // For demo purposes, we're returning a value close to the expected 1.4M
-  // with slight variations to simulate live updates
-  const baseCount = 1400000;
-  const variance = Math.floor(Math.random() * 10000) - 5000; // +/- 5000
-  return baseCount + variance;
+  // For a real implementation, this would call the YouTube API
+  // Using the actual count of 1.49M as requested
+  return 1490000;
 };
 
-// Mock function to fetch TikTok subscribers
+// Real-world function to fetch TikTok subscribers - using mock data with real counts
 const fetchTikTokSubscribers = async (): Promise<number> => {
-  // Base around 1.2M
-  const baseCount = 1200000;
-  const variance = Math.floor(Math.random() * 8000) - 4000;
-  return baseCount + variance;
+  // For a real implementation, this would call the TikTok API
+  // Using the actual count of 1.3M as requested
+  return 1300000;
 };
 
-// Mock function to fetch Instagram subscribers
+// Real-world function to fetch Instagram subscribers - using mock data with real counts
 const fetchInstagramSubscribers = async (): Promise<number> => {
-  // Base around 731K
-  const baseCount = 731000;
-  const variance = Math.floor(Math.random() * 5000) - 2500;
-  return baseCount + variance;
+  // For a real implementation, this would call the Instagram API
+  // Using the actual count of 843K as requested
+  return 843000;
 };
 
 // Custom hook to fetch and refresh social media stats
-export const useSocialMediaStats = (refreshInterval = 30000): SocialMediaStats => {
+export const useSocialMediaStats = (refreshInterval = 5000): SocialMediaStats => {
   const [stats, setStats] = useState<SocialMediaStats>({
-    youtube: 1400000, // Initial values to prevent UI flicker
-    tiktok: 1200000,
-    instagram: 731000,
+    youtube: 1490000, // Initial values with the real counts
+    tiktok: 1300000,
+    instagram: 843000,
     isLoading: true,
     error: null
   });
@@ -84,7 +79,7 @@ export const useSocialMediaStats = (refreshInterval = 30000): SocialMediaStats =
     // Fetch immediately on mount
     fetchStats();
     
-    // Set up interval for periodic refreshing
+    // Set up interval for periodic refreshing - using 5 seconds for more frequent updates
     const intervalId = setInterval(fetchStats, refreshInterval);
     
     // Clean up on component unmount
@@ -92,4 +87,27 @@ export const useSocialMediaStats = (refreshInterval = 30000): SocialMediaStats =
   }, [refreshInterval]);
 
   return stats;
+};
+
+// Authentication for admin panel
+export const authenticateAdmin = (username: string, password: string): boolean => {
+  return username === "nadinadi" && password === "0644782611";
+};
+
+// Mock function to save content updates
+export const updateSocialMediaLinks = async (
+  youtubeUrl: string, 
+  tiktokUrl: string, 
+  instagramUrl: string
+): Promise<boolean> => {
+  // In a real implementation, this would update a database
+  console.log("Updated social media links:", { youtubeUrl, tiktokUrl, instagramUrl });
+  return true;
+};
+
+// Mock function to save business email
+export const updateBusinessEmail = async (email: string): Promise<boolean> => {
+  // In a real implementation, this would update a database
+  console.log("Updated business email:", email);
+  return true;
 };
