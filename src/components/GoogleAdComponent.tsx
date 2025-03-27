@@ -33,7 +33,7 @@ export const GoogleAdComponent = () => {
         {!localStorage.getItem("googleAdsCode") && (
           <div className="text-center p-4">
             <img 
-              src="/lovable-uploads/98ad7098-e6d5-4176-8353-f431d0ef480e.png" 
+              src="/lovable-uploads/3dd0dc6b-23f5-4799-a1e9-f3aa4c821d6e.png" 
               alt="Google Ads" 
               className="mx-auto max-w-full max-h-full object-contain" 
             />

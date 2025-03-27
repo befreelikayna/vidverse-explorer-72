@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -96,6 +97,15 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground dark:bg-gray-950 dark:text-white;
+  }
+  
+  /* Force dark theme */
+  :root {
+    color-scheme: dark;
+  }
+  
+  html {
+    @apply dark;
   }
 }
