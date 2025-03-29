@@ -8,6 +8,9 @@ import { StrictMode } from "react";
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import AdminDashboard from "./pages/AdminDashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Chat from "./pages/Chat";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +33,9 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>

@@ -10,7 +10,7 @@ import {
   updateThemeSettings,
   updateGoogleAdsCode
 } from "@/lib/socialMedia";
-import { LogOut, Save, ExternalLink, Moon, Sun } from "lucide-react";
+import { LogOut, Save, ExternalLink, Moon, Sun, Home } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { 
@@ -20,10 +20,13 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { NewsTickerAdmin } from "@/components/admin/NewsTickerAdmin";
+import { useTranslation } from "@/hooks/use-translation";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   
   const [youtubeUrl, setYoutubeUrl] = useState("https://www.youtube.com/@kimmiso");
   const [tiktokUrl, setTiktokUrl] = useState("https://www.tiktok.com/@kimmiso94");
@@ -148,7 +151,18 @@ const AdminDashboard = () => {
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <header className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-md`}>
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold">Admin Dashboard</h1>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              className="flex items-center gap-2"
+              onClick={() => navigate("/")}
+            >
+              <Home className="h-4 w-4" />
+              Home
+            </Button>
+          </div>
           <Button 
             variant="ghost" 
             size="sm" 
@@ -346,6 +360,9 @@ const AdminDashboard = () => {
               </Button>
             </form>
           </div>
+          
+          {/* News Ticker Settings */}
+          <NewsTickerAdmin isDarkMode={isDarkMode} />
           
           {/* Subscriber Stats Info */}
           <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md lg:col-span-2`}>

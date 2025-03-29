@@ -109,3 +109,22 @@
     @apply dark;
   }
 }
+
+@layer components {
+  .news-ticker {
+    @apply bg-gray-900 border-b border-gray-800 text-gray-200 py-2 overflow-hidden;
+  }
+  
+  .news-ticker-content {
+    @apply inline-block whitespace-nowrap animate-marquee;
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+}
