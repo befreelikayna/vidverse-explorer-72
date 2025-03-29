@@ -1,4 +1,3 @@
-
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -13,14 +12,7 @@ import {
 } from "lucide-react";
 import { TikTokIcon } from "@/components/TikTokIcon";
 import { useTranslation } from "@/hooks/use-translation";
-import { useEffect, useState } from "react";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+import { useState, useEffect } from "react";
 
 interface AppHeaderProps {
   youtube: number;
@@ -42,11 +34,9 @@ export const AppHeader = ({
   formatSubscriberCount
 }: AppHeaderProps) => {
   const navigate = useNavigate();
-  const { t, language, changeLanguage, getAvailableLanguages } = useTranslation();
+  const { t } = useTranslation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState("");
-
-  const languages = getAvailableLanguages();
 
   useEffect(() => {
     const checkAuth = () => {
@@ -61,7 +51,6 @@ export const AppHeader = ({
     
     checkAuth();
     
-    // Listen for auth changes in localStorage
     window.addEventListener("storage", checkAuth);
     
     return () => {
@@ -100,22 +89,6 @@ export const AppHeader = ({
             >
               <span>business.kimmiso@gmail.com</span>
             </Button>
-            
-            <Select
-              value={language}
-              onValueChange={changeLanguage}
-            >
-              <SelectTrigger className="w-24">
-                <SelectValue placeholder="Language" />
-              </SelectTrigger>
-              <SelectContent>
-                {languages.map((lang) => (
-                  <SelectItem key={lang} value={lang}>
-                    {lang.toUpperCase()}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
             
             {isAuthenticated ? (
               <div className="flex items-center gap-2">

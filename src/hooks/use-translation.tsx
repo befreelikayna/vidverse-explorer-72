@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 interface Translations {
@@ -61,28 +60,13 @@ export const useTranslation = () => {
       }
     };
 
-    const savedLang = localStorage.getItem('userLanguage');
-    if (savedLang && translations[savedLang]) {
-      setLanguage(savedLang);
-    } else {
-      detectLanguage();
-    }
+    detectLanguage();
   }, []);
 
   const t = (key: string): string => {
     return translations[language]?.[key] || translations.en[key] || key;
   };
 
-  const changeLanguage = (lang: string) => {
-    if (translations[lang]) {
-      setLanguage(lang);
-      localStorage.setItem('userLanguage', lang);
-    }
-  };
-
-  const getAvailableLanguages = () => {
-    return Object.keys(translations);
-  };
-
-  return { t, language, changeLanguage, getAvailableLanguages };
+  // We no longer expose changeLanguage as it's now automatic
+  return { t, language };
 };
