@@ -11,6 +11,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
+import { MobileNavBar } from "./components/MobileNavBar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +38,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/chat" element={<Chat />} />
             </Routes>
+            <MobileNavBar />
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
