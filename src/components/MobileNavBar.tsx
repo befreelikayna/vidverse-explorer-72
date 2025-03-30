@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft } from "lucide-react";
+import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft, Download } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTranslation } from "@/hooks/use-translation";
 
 export const MobileNavBar = () => {
   const isMobile = useIsMobile();
@@ -10,6 +11,7 @@ export const MobileNavBar = () => {
   const location = useLocation();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const checkAuth = () => {
@@ -39,6 +41,10 @@ export const MobileNavBar = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
+
+  const handleDownloadApk = () => {
+    window.open('https://www.upload-apk.com/DSV4fSEVUyr28KG', '_blank');
+  };
   
   if (!isMobile) return null;
   
@@ -61,7 +67,15 @@ export const MobileNavBar = () => {
           <span className="text-xs mt-1">Home</span>
         </button>
         
-        {showScrollTop && (
+        <button 
+          onClick={handleDownloadApk}
+          className="flex flex-col items-center justify-center p-2 text-green-500 hover:text-green-400"
+        >
+          <Download size={20} />
+          <span className="text-xs mt-1">{t('downloadApp')}</span>
+        </button>
+        
+        {showScrollTop ? (
           <button 
             onClick={handleScrollToTop}
             className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
@@ -69,15 +83,15 @@ export const MobileNavBar = () => {
             <ArrowUp size={20} />
             <span className="text-xs mt-1">Top</span>
           </button>
+        ) : (
+          <button 
+            onClick={() => navigate("/chat")}
+            className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+          >
+            <MessageCircle size={20} />
+            <span className="text-xs mt-1">Chat</span>
+          </button>
         )}
-        
-        <button 
-          onClick={() => navigate("/chat")}
-          className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
-        >
-          <MessageCircle size={20} />
-          <span className="text-xs mt-1">Chat</span>
-        </button>
         
         <button 
           onClick={() => navigate(isAuthenticated ? "/profile" : "/login")}

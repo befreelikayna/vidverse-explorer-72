@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 
 interface Translations {
@@ -18,7 +19,9 @@ const translations: Translations = {
     business: "Business Inquiries",
     latestVideos: "Latest Videos",
     darkMode: "Dark Mode",
-    lightMode: "Light Mode"
+    lightMode: "Light Mode",
+    logout: "Logout",
+    downloadApp: "Download App"
   },
   es: {
     home: "Inicio",
@@ -30,7 +33,9 @@ const translations: Translations = {
     business: "Consultas de Negocios",
     latestVideos: "Últimos Videos",
     darkMode: "Modo Oscuro",
-    lightMode: "Modo Claro"
+    lightMode: "Modo Claro",
+    logout: "Cerrar Sesión",
+    downloadApp: "Descargar App"
   },
   fr: {
     home: "Accueil",
@@ -42,7 +47,9 @@ const translations: Translations = {
     business: "Demandes Professionnelles",
     latestVideos: "Dernières Vidéos",
     darkMode: "Mode Sombre",
-    lightMode: "Mode Clair"
+    lightMode: "Mode Clair",
+    logout: "Déconnexion",
+    downloadApp: "Télécharger l'App"
   },
   // Add more languages as needed
 };
