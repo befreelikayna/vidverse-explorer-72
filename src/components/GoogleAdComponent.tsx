@@ -12,18 +12,29 @@ export const GoogleAdComponent = () => {
     const googleAdsCode = localStorage.getItem("googleAdsCode");
     
     if (googleAdsCode && adContainerRef.current) {
-      // Create a script element to inject the Google Ads code
-      const script = document.createElement('script');
-      script.async = true;
-      script.innerHTML = googleAdsCode;
-      
-      // Clear any existing content
-      if (adContainerRef.current.firstChild) {
-        adContainerRef.current.innerHTML = '';
+      try {
+        // Clear any existing content
+        if (adContainerRef.current.firstChild) {
+          adContainerRef.current.innerHTML = '';
+        }
+        
+        // Create a container for the ad to ensure proper styling
+        const adWrapper = document.createElement('div');
+        adWrapper.className = 'w-full h-full flex items-center justify-center';
+        
+        // Create a script element to inject the Google Ads code
+        const script = document.createElement('script');
+        script.async = true;
+        script.innerHTML = googleAdsCode;
+        
+        // Add the script to the wrapper
+        adWrapper.appendChild(script);
+        
+        // Add the wrapper to the container
+        adContainerRef.current.appendChild(adWrapper);
+      } catch (error) {
+        console.error("Error injecting Google Ads code:", error);
       }
-      
-      // Inject the script
-      adContainerRef.current.appendChild(script);
     }
   }, []);
   
