@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SearchBar } from "@/components/SearchBar";
 import { VideoGrid } from "@/components/VideoGrid";
 import { searchVideos } from "@/lib/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSocialMediaStats, formatSubscriberCount } from "@/lib/socialMedia";
@@ -13,6 +13,10 @@ import { useTranslation } from "@/hooks/use-translation";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [nextPageToken, setNextPageToken] = useState<string | null>(null);
+  const [allVideos, setAllVideos] = useState<any[]>([]);
+  const [loadingMore, setLoadingMore] = useState(false);
+  
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const { t } = useTranslation();
@@ -61,17 +65,41 @@ const Index = () => {
     };
   }, []);
 
-  const { data: videos = [], isLoading, error } = useQuery({
-    queryKey: ["videos", searchQuery],
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["videos", searchQuery, null],
     queryFn: () => searchVideos(searchQuery),
+    onSuccess: (data) => {
+      setAllVideos(data.videos || []);
+      setNextPageToken(data.nextpage);
+    },
     select: (data) => {
-      if (!Array.isArray(data)) {
+      if (!data.videos || !Array.isArray(data.videos)) {
         console.error("Received non-array data:", data);
-        return [];
+        return { videos: [], nextpage: null };
       }
       return data;
     },
   });
+
+  const loadMoreVideos = useCallback(async () => {
+    if (!nextPageToken || loadingMore) return;
+    
+    setLoadingMore(true);
+    try {
+      const moreData = await searchVideos(searchQuery, nextPageToken);
+      setAllVideos(prev => [...prev, ...(moreData.videos || [])]);
+      setNextPageToken(moreData.nextpage);
+    } catch (err) {
+      console.error("Error loading more videos:", err);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to load more videos. Please try again.",
+      });
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [nextPageToken, searchQuery, loadingMore, toast]);
 
   if (error) {
     toast({
@@ -122,7 +150,13 @@ const Index = () => {
         </div>
         
         {/* Video Grid */}
-        <VideoGrid videos={videos} isLoading={isLoading} />
+        <VideoGrid 
+          videos={allVideos} 
+          isLoading={isLoading}
+          onLoadMore={loadMoreVideos}
+          hasMoreVideos={!!nextPageToken}
+          loadingMore={loadingMore}
+        />
       </div>
     </div>
   );

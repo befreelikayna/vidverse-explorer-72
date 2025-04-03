@@ -1,3 +1,4 @@
+
 export interface Video {
   title: string;
   url: string;
@@ -9,7 +10,12 @@ export interface Video {
   uploadedDate: string;
 }
 
-export const searchVideos = async (query: string = ""): Promise<Video[]> => {
+export interface ChannelResponse {
+  videos: Video[];
+  nextpage: string | null;
+}
+
+export const searchVideos = async (query: string = "", nextpage: string | null = null): Promise<ChannelResponse> => {
   try {
     // If there's a search query, use it, otherwise fetch from the specific channel
     if (query.trim()) {
@@ -22,11 +28,20 @@ export const searchVideos = async (query: string = ""): Promise<Video[]> => {
       }
       
       const data = await response.json();
-      return Array.isArray(data) ? data : [];
+      return { 
+        videos: Array.isArray(data) ? data : [],
+        nextpage: null // Search doesn't support pagination in the current API
+      };
     } else {
-      // Fetch videos from KIMMISO's channel
+      // Fetch videos from KIMMISO's channel with pagination support
       const channelId = "UClrGKMnK9lvo83f_vl-O-RQ";
-      const response = await fetch(`https://pipedapi.reallyaweso.me/channel/${channelId}`);
+      
+      let url = `https://pipedapi.reallyaweso.me/channel/${channelId}`;
+      if (nextpage) {
+        url = `https://pipedapi.reallyaweso.me/nextpage/channel/${encodeURIComponent(nextpage)}`;
+      }
+      
+      const response = await fetch(url);
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -35,10 +50,13 @@ export const searchVideos = async (query: string = ""): Promise<Video[]> => {
       }
       
       const data = await response.json();
-      return Array.isArray(data.relatedStreams) ? data.relatedStreams : [];
+      return {
+        videos: Array.isArray(data.relatedStreams) ? data.relatedStreams : [],
+        nextpage: data.nextpage || null
+      };
     }
   } catch (error) {
     console.error('Error fetching videos:', error);
-    return [];
+    return { videos: [], nextpage: null };
   }
 };

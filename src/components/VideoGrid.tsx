@@ -4,15 +4,36 @@ import { VideoCard } from "./VideoCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { useState, useEffect } from "react";
 import { GoogleAdComponent } from "./GoogleAdComponent";
+import { Button } from "./ui/button";
+import { useInView } from "react-intersection-observer";
 
 interface VideoGridProps {
   videos: Video[];
   isLoading: boolean;
+  onLoadMore: () => void;
+  hasMoreVideos: boolean;
+  loadingMore: boolean;
 }
 
-export const VideoGrid = ({ videos, isLoading }: VideoGridProps) => {
+export const VideoGrid = ({ 
+  videos, 
+  isLoading, 
+  onLoadMore, 
+  hasMoreVideos, 
+  loadingMore 
+}: VideoGridProps) => {
   const [expandedVideoId, setExpandedVideoId] = useState<string | null>(null);
   const [videosWithAds, setVideosWithAds] = useState<(Video | { isAd: true })[]>([]);
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+  });
+  
+  // Load more content when scrolled to bottom
+  useEffect(() => {
+    if (inView && hasMoreVideos && !loadingMore) {
+      onLoadMore();
+    }
+  }, [inView, hasMoreVideos, onLoadMore, loadingMore]);
 
   useEffect(() => {
     // Insert Google Ads between videos
@@ -39,7 +60,7 @@ export const VideoGrid = ({ videos, isLoading }: VideoGridProps) => {
     setVideosWithAds(insertAds());
   }, [videos]);
 
-  if (isLoading) {
+  if (isLoading && videos.length === 0) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...Array(12)].map((_, i) => (
@@ -67,6 +88,20 @@ export const VideoGrid = ({ videos, isLoading }: VideoGridProps) => {
           />
         )
       ))}
+      
+      {/* Infinite scroll trigger point */}
+      {hasMoreVideos && (
+        <div 
+          ref={ref} 
+          className="col-span-full flex justify-center p-8"
+        >
+          {loadingMore && (
+            <div className="flex items-center justify-center">
+              <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-gray-400"></div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
