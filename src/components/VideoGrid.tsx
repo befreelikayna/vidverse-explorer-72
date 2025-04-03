@@ -26,11 +26,13 @@ export const VideoGrid = ({
   const [videosWithAds, setVideosWithAds] = useState<(Video | { isAd: true })[]>([]);
   const { ref, inView } = useInView({
     threshold: 0.5,
+    triggerOnce: false,
   });
   
   // Load more content when scrolled to bottom
   useEffect(() => {
     if (inView && hasMoreVideos && !loadingMore) {
+      console.log("Loading more videos - intersection observed");
       onLoadMore();
     }
   }, [inView, hasMoreVideos, onLoadMore, loadingMore]);

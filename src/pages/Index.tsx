@@ -68,10 +68,6 @@ const Index = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["videos", searchQuery, null],
     queryFn: () => searchVideos(searchQuery),
-    onSuccess: (data) => {
-      setAllVideos(data.videos || []);
-      setNextPageToken(data.nextpage);
-    },
     select: (data) => {
       if (!data.videos || !Array.isArray(data.videos)) {
         console.error("Received non-array data:", data);
@@ -80,6 +76,14 @@ const Index = () => {
       return data;
     },
   });
+  
+  // Update allVideos state when query data changes
+  useEffect(() => {
+    if (data && data.videos) {
+      setAllVideos(data.videos);
+      setNextPageToken(data.nextpage);
+    }
+  }, [data]);
 
   const loadMoreVideos = useCallback(async () => {
     if (!nextPageToken || loadingMore) return;
