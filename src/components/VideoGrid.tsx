@@ -64,7 +64,7 @@ export const VideoGrid = ({
 
   if (isLoading && videos.length === 0) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[...Array(12)].map((_, i) => (
           <LoadingSkeleton key={i} />
         ))}
@@ -73,10 +73,10 @@ export const VideoGrid = ({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
       {videosWithAds.map((item, index) => (
         'isAd' in item ? (
-          <div key={`ad-${index}`} className="col-span-1 md:col-span-1 lg:col-span-1">
+          <div key={`ad-${index}`} className="col-span-1 w-full">
             <GoogleAdComponent />
           </div>
         ) : (
@@ -95,7 +95,7 @@ export const VideoGrid = ({
       {hasMoreVideos && (
         <div 
           ref={ref} 
-          className="col-span-full flex justify-center p-8"
+          className="col-span-full flex justify-center p-4"
         >
           {loadingMore && (
             <div className="flex items-center justify-center">

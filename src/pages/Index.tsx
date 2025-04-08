@@ -132,11 +132,11 @@ const Index = () => {
   const borderColorClass = getThemeColorClasses();
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gray-950 text-white pb-16">
       {/* News Ticker */}
       <NewsTicker news={newsItems} />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         {/* Header Section */}
         <AppHeader
           youtube={youtube}
@@ -149,7 +149,7 @@ const Index = () => {
         />
         
         {/* Search Bar */}
-        <div className="w-full md:max-w-xl mx-auto mb-8">
+        <div className="w-full sm:max-w-md md:max-w-xl mx-auto mb-4 sm:mb-8">
           <SearchBar onSearch={setSearchQuery} />
         </div>
         

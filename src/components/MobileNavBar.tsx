@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft, Download } from "lucide-react";
+import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -41,10 +41,6 @@ export const MobileNavBar = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
-
-  const handleDownloadApk = () => {
-    window.open('https://www.upload-apk.com/DSV4fSEVUyr28KG', '_blank');
-  };
   
   if (!isMobile) return null;
   
@@ -65,14 +61,6 @@ export const MobileNavBar = () => {
         >
           <Home size={20} />
           <span className="text-xs mt-1">Home</span>
-        </button>
-        
-        <button 
-          onClick={handleDownloadApk}
-          className="flex flex-col items-center justify-center p-2 text-green-500 hover:text-green-400"
-        >
-          <Download size={20} />
-          <span className="text-xs mt-1">{t('downloadApp')}</span>
         </button>
         
         {showScrollTop ? (
