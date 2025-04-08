@@ -49,44 +49,44 @@ export const MobileNavBar = () => {
       <div className="flex justify-around items-center px-2 py-3">
         <button 
           onClick={handleGoBack}
-          className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+          className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+          aria-label="Go back"
         >
-          <ArrowLeft size={20} />
-          <span className="text-xs mt-1">Back</span>
+          <ArrowLeft size={24} />
         </button>
         
         <button 
           onClick={() => navigate("/")}
-          className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+          className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+          aria-label="Home"
         >
-          <Home size={20} />
-          <span className="text-xs mt-1">Home</span>
+          <Home size={24} />
         </button>
         
         {showScrollTop ? (
           <button 
             onClick={handleScrollToTop}
-            className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+            className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+            aria-label="Scroll to top"
           >
-            <ArrowUp size={20} />
-            <span className="text-xs mt-1">Top</span>
+            <ArrowUp size={24} />
           </button>
         ) : (
           <button 
             onClick={() => navigate("/chat")}
-            className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+            className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+            aria-label="Chat"
           >
-            <MessageCircle size={20} />
-            <span className="text-xs mt-1">Chat</span>
+            <MessageCircle size={24} />
           </button>
         )}
         
         <button 
           onClick={() => navigate(isAuthenticated ? "/profile" : "/login")}
-          className="flex flex-col items-center justify-center p-2 text-gray-400 hover:text-white"
+          className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+          aria-label={isAuthenticated ? "Profile" : "Login"}
         >
-          <LogIn size={20} />
-          <span className="text-xs mt-1">{isAuthenticated ? "Profile" : "Login"}</span>
+          <LogIn size={24} />
         </button>
       </div>
     </div>
