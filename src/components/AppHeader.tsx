@@ -1,4 +1,3 @@
-
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,8 +8,7 @@ import {
   LogOut, 
   UserPlus, 
   Home,
-  MessageCircle,
-  Download
+  MessageCircle
 } from "lucide-react";
 import { TikTokIcon } from "@/components/TikTokIcon";
 import { useTranslation } from "@/hooks/use-translation";
@@ -66,10 +64,6 @@ export const AppHeader = ({
     localStorage.removeItem("userEmail");
     setIsAuthenticated(false);
     navigate("/");
-  };
-
-  const handleDownloadApk = () => {
-    window.open('https://www.upload-apk.com/DSV4fSEVUyr28KG', '_blank');
   };
   
   return (
@@ -185,17 +179,7 @@ export const AppHeader = ({
             </Button>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Button
-              variant={isDarkMode ? "default" : "outline"}
-              size="sm"
-              className={`flex items-center gap-2 ${isDarkMode ? 'bg-green-600 hover:bg-green-700 text-white' : 'border-green-600 text-green-600 hover:bg-green-50'}`}
-              onClick={handleDownloadApk}
-            >
-              <Download className="h-4 w-4" />
-              {t('downloadApp')}
-            </Button>
-          
+          <div className="flex items-center gap-2">          
             <Button
               variant="ghost"
               size="sm"
