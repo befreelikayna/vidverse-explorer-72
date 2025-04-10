@@ -8,34 +8,47 @@ export const GoogleAdComponent = () => {
   const [daysAgo] = useState(() => Math.floor(Math.random() * 30) + 1);
   
   useEffect(() => {
-    // Get Google Ads code from localStorage
-    const googleAdsCode = localStorage.getItem("googleAdsCode");
-    
-    if (googleAdsCode && adContainerRef.current) {
-      try {
-        // Clear any existing content
-        if (adContainerRef.current.firstChild) {
-          adContainerRef.current.innerHTML = '';
+    // Create AdSense script and ad elements
+    const createAdElements = () => {
+      if (adContainerRef.current) {
+        try {
+          // Clear any existing content
+          if (adContainerRef.current.firstChild) {
+            adContainerRef.current.innerHTML = '';
+          }
+          
+          // Create script element for AdSense
+          const script1 = document.createElement('script');
+          script1.async = true;
+          script1.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057061371686914";
+          script1.crossOrigin = "anonymous";
+          
+          // Create ins element for the ad
+          const ins = document.createElement('ins');
+          ins.className = "adsbygoogle";
+          ins.style.display = "block";
+          ins.style.textAlign = "center";
+          ins.setAttribute("data-ad-layout", "in-article");
+          ins.setAttribute("data-ad-format", "fluid");
+          ins.setAttribute("data-ad-client", "ca-pub-8057061371686914");
+          ins.setAttribute("data-ad-slot", "4922702347");
+          
+          // Create script to push the ad
+          const script2 = document.createElement('script');
+          script2.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
+          
+          // Append elements to the container
+          adContainerRef.current.appendChild(script1);
+          adContainerRef.current.appendChild(ins);
+          adContainerRef.current.appendChild(script2);
+        } catch (error) {
+          console.error("Error creating AdSense elements:", error);
         }
-        
-        // Create a container for the ad to ensure proper styling
-        const adWrapper = document.createElement('div');
-        adWrapper.className = 'w-full h-full flex items-center justify-center';
-        
-        // Create a script element to inject the Google Ads code
-        const script = document.createElement('script');
-        script.async = true;
-        script.innerHTML = googleAdsCode;
-        
-        // Add the script to the wrapper
-        adWrapper.appendChild(script);
-        
-        // Add the wrapper to the container
-        adContainerRef.current.appendChild(adWrapper);
-      } catch (error) {
-        console.error("Error injecting Google Ads code:", error);
       }
-    }
+    };
+    
+    // Call the function to create ad elements
+    createAdElements();
   }, []);
   
   return (
@@ -48,15 +61,7 @@ export const GoogleAdComponent = () => {
             ref={adContainerRef} 
             className="w-full h-full flex items-center justify-center bg-gray-800 relative"
           >
-            {!localStorage.getItem("googleAdsCode") && (
-              <div className="text-center p-4">
-                <img 
-                  src="/lovable-uploads/3dd0dc6b-23f5-4799-a1e9-f3aa4c821d6e.png" 
-                  alt="Google Ads" 
-                  className="mx-auto max-w-full max-h-full object-contain" 
-                />
-              </div>
-            )}
+            {/* The AdSense ad will be injected here */}
           </div>
         </div>
         <div className="flex gap-3">
