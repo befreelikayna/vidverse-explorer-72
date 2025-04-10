@@ -23,15 +23,14 @@ export const GoogleAdComponent = () => {
           script1.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057061371686914";
           script1.crossOrigin = "anonymous";
           
-          // Create ins element for the ad
+          // Create ins element for the ad with new ad slot and settings
           const ins = document.createElement('ins');
           ins.className = "adsbygoogle";
           ins.style.display = "block";
-          ins.style.textAlign = "center";
-          ins.setAttribute("data-ad-layout", "in-article");
-          ins.setAttribute("data-ad-format", "fluid");
           ins.setAttribute("data-ad-client", "ca-pub-8057061371686914");
-          ins.setAttribute("data-ad-slot", "4922702347");
+          ins.setAttribute("data-ad-slot", "8217221150");
+          ins.setAttribute("data-ad-format", "auto");
+          ins.setAttribute("data-full-width-responsive", "true");
           
           // Create script to push the ad
           const script2 = document.createElement('script');
