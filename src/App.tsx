@@ -26,10 +26,10 @@ function App() {
   return (
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+        <BrowserRouter>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/admin" element={<Admin />} />
@@ -39,8 +39,8 @@ function App() {
               <Route path="/chat" element={<Chat />} />
             </Routes>
             <MobileNavBar />
-          </BrowserRouter>
-        </TooltipProvider>
+          </TooltipProvider>
+        </BrowserRouter>
       </QueryClientProvider>
     </StrictMode>
   );

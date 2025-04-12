@@ -67,7 +67,6 @@ export const GoogleAdComponent = () => {
             adContainerRef.current.appendChild(script2);
           } else {
             // If we have a stored ad code, use it by setting innerHTML
-            // This is a direct approach since the ad code contains script tags
             adContainerRef.current.innerHTML = adCode;
           }
         } catch (error) {
