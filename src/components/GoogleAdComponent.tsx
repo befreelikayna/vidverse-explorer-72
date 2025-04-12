@@ -6,6 +6,11 @@ export const GoogleAdComponent = () => {
   // Generate random view count and date
   const [viewCount] = useState(() => Math.floor(Math.random() * 500000) + 50000);
   const [daysAgo] = useState(() => Math.floor(Math.random() * 30) + 1);
+  const [adType] = useState(() => {
+    // Randomly choose between the three ad types
+    const types = ["banner", "in-article", "fluid"];
+    return types[Math.floor(Math.random() * types.length)];
+  });
   
   useEffect(() => {
     // Create AdSense script and ad elements
@@ -17,29 +22,54 @@ export const GoogleAdComponent = () => {
             adContainerRef.current.innerHTML = '';
           }
           
-          // Create script element for AdSense
-          const script1 = document.createElement('script');
-          script1.async = true;
-          script1.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057061371686914";
-          script1.crossOrigin = "anonymous";
+          // Try to get ad code from localStorage (set via admin panel)
+          const storedAdCodes = localStorage.getItem('adCodes');
+          let adCode = "";
           
-          // Create ins element for the ad with new ad slot and settings
-          const ins = document.createElement('ins');
-          ins.className = "adsbygoogle";
-          ins.style.display = "block";
-          ins.setAttribute("data-ad-client", "ca-pub-8057061371686914");
-          ins.setAttribute("data-ad-slot", "8217221150");
-          ins.setAttribute("data-ad-format", "auto");
-          ins.setAttribute("data-full-width-responsive", "true");
+          if (storedAdCodes) {
+            try {
+              const parsedAdCodes = JSON.parse(storedAdCodes);
+              if (Array.isArray(parsedAdCodes)) {
+                const foundAd = parsedAdCodes.find(code => code.id === adType);
+                if (foundAd) {
+                  adCode = foundAd.code;
+                }
+              }
+            } catch (e) {
+              console.error("Error parsing ad codes data:", e);
+            }
+          }
           
-          // Create script to push the ad
-          const script2 = document.createElement('script');
-          script2.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
-          
-          // Append elements to the container
-          adContainerRef.current.appendChild(script1);
-          adContainerRef.current.appendChild(ins);
-          adContainerRef.current.appendChild(script2);
+          // If no stored code found, use default
+          if (!adCode) {
+            // Create script element for AdSense
+            const script1 = document.createElement('script');
+            script1.async = true;
+            script1.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8057061371686914";
+            script1.crossOrigin = "anonymous";
+            
+            // Create ins element for the ad with new ad slot and settings
+            const ins = document.createElement('ins');
+            ins.className = "adsbygoogle";
+            ins.style.display = "block";
+            ins.setAttribute("data-ad-client", "ca-pub-8057061371686914");
+            ins.setAttribute("data-ad-slot", "8217221150");
+            ins.setAttribute("data-ad-format", "auto");
+            ins.setAttribute("data-full-width-responsive", "true");
+            
+            // Create script to push the ad
+            const script2 = document.createElement('script');
+            script2.innerHTML = "(adsbygoogle = window.adsbygoogle || []).push({});";
+            
+            // Append elements to the container
+            adContainerRef.current.appendChild(script1);
+            adContainerRef.current.appendChild(ins);
+            adContainerRef.current.appendChild(script2);
+          } else {
+            // If we have a stored ad code, use it by setting innerHTML
+            // This is a direct approach since the ad code contains script tags
+            adContainerRef.current.innerHTML = adCode;
+          }
         } catch (error) {
           console.error("Error creating AdSense elements:", error);
         }
@@ -48,7 +78,7 @@ export const GoogleAdComponent = () => {
     
     // Call the function to create ad elements
     createAdElements();
-  }, []);
+  }, [adType]);
   
   return (
     <div className="w-full h-full">

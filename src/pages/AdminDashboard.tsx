@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -21,6 +20,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { NewsTickerAdmin } from "@/components/admin/NewsTickerAdmin";
+import { AdsManagementAdmin } from "@/components/admin/AdsManagementAdmin";
 import { useTranslation } from "@/hooks/use-translation";
 
 const AdminDashboard = () => {
@@ -38,13 +38,11 @@ const AdminDashboard = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    // Check if user is authenticated
     const isAuthenticated = localStorage.getItem("isAdminAuthenticated") === "true";
     if (!isAuthenticated) {
       navigate("/admin");
     }
     
-    // Set initial theme based on localStorage
     document.documentElement.classList.toggle("dark", isDarkMode);
   }, [navigate, isDarkMode]);
 
@@ -119,7 +117,7 @@ const AdminDashboard = () => {
       setIsSaving(false);
     }
   };
-  
+
   const handleSaveGoogleAds = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -177,7 +175,6 @@ const AdminDashboard = () => {
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
-          {/* Social Media Links Section */}
           <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md`}>
             <h2 className="text-lg font-semibold mb-4">Social Media Links</h2>
             <form onSubmit={handleSaveLinks} className="space-y-4">
@@ -258,7 +255,6 @@ const AdminDashboard = () => {
             </form>
           </div>
           
-          {/* Business Contact Section */}
           <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md`}>
             <h2 className="text-lg font-semibold mb-4">Business Contact</h2>
             <form onSubmit={handleSaveEmail} className="space-y-4">
@@ -285,7 +281,6 @@ const AdminDashboard = () => {
             </form>
           </div>
           
-          {/* Theme Settings */}
           <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md`}>
             <h2 className="text-lg font-semibold mb-4">Theme Settings</h2>
             <form onSubmit={handleSaveThemeSettings} className="space-y-4">
@@ -333,38 +328,10 @@ const AdminDashboard = () => {
             </form>
           </div>
           
-          {/* Google Ads Code */}
-          <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md`}>
-            <h2 className="text-lg font-semibold mb-4">Google Ads</h2>
-            <form onSubmit={handleSaveGoogleAds} className="space-y-4">
-              <div className="space-y-2">
-                <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Google Ads Code</label>
-                <Textarea
-                  value={googleAdsCode}
-                  onChange={(e) => setGoogleAdsCode(e.target.value)}
-                  className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-300'} h-40`}
-                  placeholder="Paste your Google Ads code here"
-                />
-                <p className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-600'}`}>
-                  Google Ads will appear between videos on the homepage
-                </p>
-              </div>
-              
-              <Button 
-                type="submit" 
-                className="w-full flex items-center justify-center gap-2"
-                disabled={isSaving}
-              >
-                <Save className="h-4 w-4" />
-                {isSaving ? "Saving..." : "Save Google Ads Code"}
-              </Button>
-            </form>
-          </div>
-          
-          {/* News Ticker Settings */}
           <NewsTickerAdmin isDarkMode={isDarkMode} />
           
-          {/* Subscriber Stats Info */}
+          <AdsManagementAdmin isDarkMode={isDarkMode} />
+          
           <div className={`${isDarkMode ? 'bg-gray-900' : 'bg-white'} p-6 rounded-lg shadow-md lg:col-span-2`}>
             <h2 className="text-lg font-semibold mb-4">Subscriber Statistics</h2>
             <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
