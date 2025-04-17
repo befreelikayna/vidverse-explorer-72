@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft } from "lucide-react";
+import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft, Shield } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -11,6 +11,7 @@ export const MobileNavBar = () => {
   const location = useLocation();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showPrivacyLink, setShowPrivacyLink] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -24,6 +25,8 @@ export const MobileNavBar = () => {
     
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200);
+      // Show privacy link when user scrolls near the bottom of the page
+      setShowPrivacyLink(window.innerHeight + window.scrollY >= document.body.offsetHeight - 300);
     };
     
     window.addEventListener("scroll", handleScroll);
@@ -63,7 +66,15 @@ export const MobileNavBar = () => {
           <Home size={24} />
         </button>
         
-        {showScrollTop ? (
+        {showPrivacyLink ? (
+          <button 
+            onClick={() => navigate("/privacy-policy")}
+            className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+            aria-label="Privacy Policy"
+          >
+            <Shield size={24} />
+          </button>
+        ) : showScrollTop ? (
           <button 
             onClick={handleScrollToTop}
             className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
