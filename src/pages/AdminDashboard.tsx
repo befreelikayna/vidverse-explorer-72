@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { NewsTickerAdmin } from "@/components/admin/NewsTickerAdmin";
 import { AdsManagementAdmin } from "@/components/admin/AdsManagementAdmin";
+import { InstagramConfigAdmin } from "@/components/admin/InstagramConfigAdmin";
 import { useTranslation } from "@/hooks/use-translation";
 
 const AdminDashboard = () => {
@@ -327,6 +328,8 @@ const AdminDashboard = () => {
               </Button>
             </form>
           </div>
+          
+          <InstagramConfigAdmin isDarkMode={isDarkMode} />
           
           <NewsTickerAdmin isDarkMode={isDarkMode} />
           

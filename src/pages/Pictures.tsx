@@ -5,6 +5,8 @@ import { Instagram } from "lucide-react";
 import { useTranslation } from "@/hooks/use-translation";
 import { AppHeader } from "@/components/AppHeader";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import { toast } from "@/components/ui/use-toast";
+import { fetchInstagramPosts } from "@/lib/instagram";
 
 interface InstagramPost {
   id: string;
@@ -18,6 +20,7 @@ export default function Pictures() {
   const { t } = useTranslation();
   const [instagramPosts, setInstagramPosts] = useState<InstagramPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Placeholder stats for AppHeader
   const stats = {
@@ -27,31 +30,34 @@ export default function Pictures() {
   };
   
   useEffect(() => {
-    // This would be replaced with actual Instagram API integration
-    // For now, using placeholder data
-    const fetchInstagramPosts = async () => {
+    const getPosts = async () => {
       setLoading(true);
       try {
-        // In a real implementation, you would fetch from Instagram API
-        // For now, simulating a delay and returning placeholder data
-        setTimeout(() => {
-          const placeholderPosts = Array(12).fill(null).map((_, index) => ({
-            id: `post-${index}`,
-            mediaUrl: `https://picsum.photos/500/500?random=${index}`,
-            caption: `Instagram post caption ${index}`,
-            timestamp: new Date().toISOString(),
-            permalink: `https://instagram.com/p/placeholder-${index}`
-          }));
-          setInstagramPosts(placeholderPosts);
-          setLoading(false);
-        }, 1500);
-      } catch (error) {
-        console.error("Error fetching Instagram posts:", error);
+        const posts = await fetchInstagramPosts();
+        setInstagramPosts(posts);
         setLoading(false);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching Instagram posts:", err);
+        setError("Failed to load Instagram posts");
+        setLoading(false);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to load Instagram posts. Please try again later."
+        });
       }
     };
 
-    fetchInstagramPosts();
+    // Initial load
+    getPosts();
+    
+    // Set up auto-refresh every 5 minutes
+    const refreshInterval = setInterval(() => {
+      getPosts();
+    }, 5 * 60 * 1000);
+    
+    return () => clearInterval(refreshInterval);
   }, []);
 
   const formatSubscriberCount = (count: number) => {
@@ -89,6 +95,13 @@ export default function Pictures() {
               </div>
             ))}
           </div>
+        ) : error ? (
+          <div className="text-center py-10">
+            <p className="text-red-400 mb-4">{error}</p>
+            <p className="text-sm text-gray-400">
+              Please check your Instagram configuration in the admin panel.
+            </p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {instagramPosts.map((post) => (
@@ -104,6 +117,9 @@ export default function Pictures() {
                       src={post.mediaUrl} 
                       alt={post.caption} 
                       className="w-full aspect-square object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = "https://picsum.photos/500/500?random=" + post.id;
+                      }}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
                       <Instagram className="h-8 w-8 text-white" />
@@ -116,7 +132,9 @@ export default function Pictures() {
         )}
         
         <p className="text-center mt-8 text-sm text-gray-400">
-          To display actual Instagram content, an Instagram API integration needs to be set up in the admin panel.
+          {instagramPosts.length > 0 
+            ? `Showing posts from @${localStorage.getItem("instagramUsername") || "kimmiso1194"}`
+            : "To display actual Instagram content, an Instagram API integration needs to be set up in the admin panel."}
         </p>
       </div>
     </div>
