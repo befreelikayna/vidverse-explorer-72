@@ -84,7 +84,9 @@ export default function Pictures() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {Array(12).fill(null).map((_, index) => (
-              <LoadingSkeleton key={index} className="h-64 w-full" />
+              <div key={index} className="h-64 w-full">
+                <LoadingSkeleton />
+              </div>
             ))}
           </div>
         ) : (
