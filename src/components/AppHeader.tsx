@@ -8,7 +8,9 @@ import {
   LogOut, 
   UserPlus, 
   Home,
-  MessageCircle
+  MessageCircle,
+  Mail,
+  Shield
 } from "lucide-react";
 import { TikTokIcon } from "@/components/TikTokIcon";
 import { useTranslation } from "@/hooks/use-translation";
@@ -87,7 +89,18 @@ export const AppHeader = ({
               className={`hidden md:flex items-center gap-2 ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'} text-sm`}
               onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
             >
+              <Mail className="h-4 w-4 mr-1" />
               <span>business.kimmiso@gmail.com</span>
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`hidden md:flex items-center gap-2 ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'} text-sm ml-2`}
+              onClick={() => navigate('/privacy-policy')}
+            >
+              <Shield className="h-4 w-4 mr-1" />
+              Privacy Policy
             </Button>
             
             {isAuthenticated ? (
