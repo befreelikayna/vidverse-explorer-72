@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Pictures from "./pages/Pictures";
 import { MobileNavBar } from "./components/MobileNavBar";
 
 const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/pictures" element={<Pictures />} />
             </Routes>
             <MobileNavBar />
           </TooltipProvider>

@@ -1,3 +1,4 @@
+
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -10,11 +11,19 @@ import {
   Home,
   MessageCircle,
   Mail,
-  Shield
+  Shield,
+  Image
 } from "lucide-react";
 import { TikTokIcon } from "@/components/TikTokIcon";
 import { useTranslation } from "@/hooks/use-translation";
 import { useState, useEffect } from "react";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AppHeaderProps {
   youtube: number;
@@ -83,25 +92,23 @@ export const AppHeader = ({
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`hidden md:flex items-center gap-2 ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'} text-sm`}
-              onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
-            >
-              <Mail className="h-4 w-4 mr-1" />
-              <span>business.kimmiso@gmail.com</span>
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`hidden md:flex items-center gap-2 ${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'} text-sm ml-2`}
-              onClick={() => navigate('/privacy-policy')}
-            >
-              <Shield className="h-4 w-4 mr-1" />
-              Privacy Policy
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}
+                    onClick={() => window.open('mailto:business.kimmiso@gmail.com')}
+                  >
+                    <Mail className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>business.kimmiso@gmail.com</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
@@ -193,25 +200,36 @@ export const AppHeader = ({
           </div>
           
           <div className="flex items-center gap-2">          
-            <Button
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-2"
-              onClick={() => navigate('/')}
-            >
-              <Home className="h-4 w-4" />
-              {t('home')}
-            </Button>
-            
-            <Button
-              variant="ghost" 
-              size="sm"
-              className="flex items-center gap-2"
-              onClick={() => navigate('/chat')}
-            >
-              <MessageCircle className="h-4 w-4" />
-              {t('chat')}
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Home className="h-4 w-4" />
+                  <span className="md:inline hidden">{t('home')}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => navigate('/')}>
+                  <Home className="h-4 w-4 mr-2" />
+                  {t('home')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/chat')}>
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  {t('chat')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/pictures')}>
+                  <Image className="h-4 w-4 mr-2" />
+                  Pictures
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/privacy-policy')}>
+                  <Shield className="h-4 w-4 mr-2" />
+                  Privacy Policy
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             
             <Button
               variant="outline"

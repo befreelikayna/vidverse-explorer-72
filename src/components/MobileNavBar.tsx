@@ -1,9 +1,15 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft, Shield } from "lucide-react";
+import { Home, ArrowUp, MessageCircle, LogIn, ArrowLeft, Shield, Image } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTranslation } from "@/hooks/use-translation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 export const MobileNavBar = () => {
   const isMobile = useIsMobile();
@@ -25,7 +31,6 @@ export const MobileNavBar = () => {
     
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200);
-      // Show privacy link when user scrolls near the bottom of the page
       setShowPrivacyLink(window.innerHeight + window.scrollY >= document.body.offsetHeight - 300);
     };
     
@@ -58,23 +63,32 @@ export const MobileNavBar = () => {
           <ArrowLeft size={24} />
         </button>
         
-        <button 
-          onClick={() => navigate("/")}
-          className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
-          aria-label="Home"
-        >
-          <Home size={24} />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
+              aria-label="Navigation menu"
+            >
+              <Home size={24} />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="top">
+            <DropdownMenuItem onClick={() => navigate("/")}>
+              <Home size={16} className="mr-2" /> {t('home')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/chat")}>
+              <MessageCircle size={16} className="mr-2" /> {t('chat')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/pictures")}>
+              <Image size={16} className="mr-2" /> Pictures
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/privacy-policy")}>
+              <Shield size={16} className="mr-2" /> Privacy Policy
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         
-        {showPrivacyLink ? (
-          <button 
-            onClick={() => navigate("/privacy-policy")}
-            className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
-            aria-label="Privacy Policy"
-          >
-            <Shield size={24} />
-          </button>
-        ) : showScrollTop ? (
+        {showScrollTop ? (
           <button 
             onClick={handleScrollToTop}
             className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
@@ -84,9 +98,9 @@ export const MobileNavBar = () => {
           </button>
         ) : (
           <button 
-            onClick={() => navigate("/chat")}
+            onClick={() => window.open("mailto:business.kimmiso@gmail.com")}
             className="flex items-center justify-center p-2 text-gray-400 hover:text-white"
-            aria-label="Chat"
+            aria-label="Email"
           >
             <MessageCircle size={24} />
           </button>
